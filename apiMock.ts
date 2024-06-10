@@ -2,9 +2,9 @@ import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 
 /** Mock request */
-function mock(method,
-              path,
-              data,
+function mock(method: string,
+              path: string,
+              data: Record<string, any>,
               status = 200) {
   mockServer.use(
     http[method](path, () =>
