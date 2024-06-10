@@ -8,12 +8,12 @@ const TVMAZE_API_URL = "https://api.tvmaze.com/";
  *    (if no image URL given by API, put in a default image URL)
  */
 
-async function searchShowsByTerm(term)  {
-  const response = await fetch(`${TVMAZE_API_URL}search/shows?q=${term}`);
-  const data = await response.json();
+async function searchShowsByTerm(term:string) :Promise<tShow[]>  {
+  const response:Response = await fetch(`${TVMAZE_API_URL}search/shows?q=${term}`);
+  const data: Record<string, any> = await response.json();
 
   return data.map(result => {
-    const show = result.show;
+    const show: Record<string, any> = result.show;
     return {
       id: show.id,
       name: show.name,
