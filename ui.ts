@@ -70,7 +70,7 @@ function populateEpisodes(episodes: tEpisode[]) : void {
 
 /** Handle click on episodes button: get episodes for show and display */
 
-async function getEpisodesAndDisplay(evt: Event) {
+async function getEpisodesAndDisplay(evt: Event) :Promise<void> {
   const $clicked = evt.target as HTMLButtonElement;
   if (!$clicked.matches(".Show-getEpisodes")) return;
 
@@ -79,7 +79,8 @@ async function getEpisodesAndDisplay(evt: Event) {
   // has the .data-show-id attribute).
   const $closest = (evt.target as HTMLButtonElement).closest(".Show") as HTMLElement;
   const showId = Number($closest.getAttribute("data-show-id"));
-  const episodes = await getEpisodesOfShow(showId);
+  // const episodes = await getEpisodesOfShow(showId) as tEpisode[];
+  const episodes: tEpisode[] = await getEpisodesOfShow(showId);
   populateEpisodes(episodes);
 }
 
