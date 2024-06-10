@@ -8,9 +8,9 @@ const TVMAZE_API_URL = "https://api.tvmaze.com/";
  *    (if no image URL given by API, put in a default image URL)
  */
 
-async function searchShowsByTerm(term:string) :Promise<tShow[]>  {
-  const response:Response = await fetch(`${TVMAZE_API_URL}search/shows?q=${term}`);
-  const data: Record<string, any> = await response.json();
+async function searchShowsByTerm(term: string): Promise<tShow[]> {
+  const response: Response = await fetch(`${TVMAZE_API_URL}search/shows?q=${term}`);
+  const data: Record<string, any>[] = await response.json();
 
   return data.map(result => {
     const show: Record<string, any> = result.show;
@@ -28,12 +28,12 @@ async function searchShowsByTerm(term:string) :Promise<tShow[]>  {
  *      { id, name, season, number }
  */
 
-async function getEpisodesOfShow(id) {
+async function getEpisodesOfShow(id: number) : Promise<tEpisode[]> {
   const response = await fetch(`${TVMAZE_API_URL}shows/${id}/episodes`);
   if (!response.ok) throw new Error("404");
   const data = await response.json();
-  return data.map(({ id, name, season, number}) => (
-    {id, name, season, number}
+  return data.map(({ id, name, season, number } : tEpisode) => (
+    { id, name, season, number }
   ));
 }
 
