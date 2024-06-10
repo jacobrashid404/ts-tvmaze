@@ -1,14 +1,14 @@
 import { getEpisodesOfShow, searchShowsByTerm } from "./models"
 
-const $showsList = document.querySelector("#showsList");
-const $episodesList = document.querySelector("#episodesList");
-const $episodesArea = document.querySelector("#episodesArea");
-const $searchForm = document.querySelector("#searchForm");
-const $term = document.querySelector("#searchForm-term");
+const $showsList = document.querySelector("#showsList") as HTMLElement;
+const $episodesList = document.querySelector("#episodesList") as HTMLElement;
+const $episodesArea = document.querySelector("#episodesArea") as HTMLElement;
+const $searchForm = document.querySelector("#searchForm") as HTMLFormElement;
+const $term = document.querySelector("#searchForm-term") as HTMLInputElement;
 
 /** Given list of shows, create markup for each and to DOM */
 
-function populateShows(shows) {
+function populateShows(shows: tShow[]) : void {
   $showsList.innerHTML = "";
 
   for (const show of shows) {
@@ -36,9 +36,9 @@ function populateShows(shows) {
  *    Hide episodes area (that only gets shown if they ask for episodes)
  */
 
-async function searchForShowAndDisplay() {
+async function searchForShowAndDisplay() : Promise<void> {
   const searchTerm = $term.value;
-  const shows = await searchShowsByTerm(searchTerm);
+  const shows: tShow[] = await searchShowsByTerm(searchTerm);
 
   $episodesArea.classList.add("d-none");
   populateShows(shows);
@@ -52,12 +52,12 @@ $searchForm.addEventListener("submit", async function (evt) {
 
 /** Given list of episodes, create markup for each and to DOM */
 
-function populateEpisodes(episodes) {
+function populateEpisodes(episodes: tEpisode[]) : void {
   $episodesList.innerHTML = "";
 
   for (const episode of episodes) {
     const $item = document.createElement("li");
-    $item.innerHTML = `    
+    $item.innerHTML = `
          ${episode.name}
          (season ${episode.season}, episode ${episode.number})
     `;
@@ -70,14 +70,14 @@ function populateEpisodes(episodes) {
 
 /** Handle click on episodes button: get episodes for show and display */
 
-async function getEpisodesAndDisplay(evt) {
-  const $clicked = evt.target;
+async function getEpisodesAndDisplay(evt: Event) {
+  const $clicked = evt.target as HTMLButtonElement;
   if (!$clicked.matches(".Show-getEpisodes")) return;
 
   // here's one way to get the ID of the show: search "closest" ancestor
   // with the class of .Show (which is put onto the enclosing div, which
   // has the .data-show-id attribute).
-  const $closest = (evt.target).closest(".Show");
+  const $closest = (evt.target as HTMLButtonElement).closest(".Show") as HTMLElement;
   const showId = Number($closest.getAttribute("data-show-id"));
   const episodes = await getEpisodesOfShow(showId);
   populateEpisodes(episodes);
