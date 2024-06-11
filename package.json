@@ -11,7 +11,10 @@
   },
   "devDependencies": {
     "@vitest/coverage-v8": "*",
-    "vitest": "*",
-    "msw": "*"
+    "msw": "*",
+    "vitest": "*"
+  },
+  "dependencies": {
+    "@types/node": "^20.14.2"
   }
 }
