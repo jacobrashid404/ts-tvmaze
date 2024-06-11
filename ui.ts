@@ -38,7 +38,7 @@ function populateShows(shows: tShow[]) : void {
 
 async function searchForShowAndDisplay() : Promise<void> {
   const searchTerm = $term.value;
-  const shows: tShow[] = await searchShowsByTerm(searchTerm);
+  const shows = await searchShowsByTerm(searchTerm); //TS knows the type of shows bc type is defined in searchShowsByTerm fn
 
   $episodesArea.classList.add("d-none");
   populateShows(shows);
