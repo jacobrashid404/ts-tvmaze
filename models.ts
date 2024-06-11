@@ -9,11 +9,11 @@ const TVMAZE_API_URL = "https://api.tvmaze.com/";
  */
 
 async function searchShowsByTerm(term: string): Promise<tShow[]> {
-  const response: Response = await fetch(`${TVMAZE_API_URL}search/shows?q=${term}`);
-  const data: Record<string, any>[] = await response.json();
+  const response: Response = await fetch(`${TVMAZE_API_URL}search/shows?q=${term}`); //fetch always returns response, no need to type it
+  const data: tShowResult[] = await response.json(); //.json is any bc it can be anything
 
   return data.map(result => {
-    const show: Record<string, any> = result.show;
+    const show = result.show;
     return {
       id: show.id,
       name: show.name,
@@ -31,8 +31,8 @@ async function searchShowsByTerm(term: string): Promise<tShow[]> {
 async function getEpisodesOfShow(id: number) : Promise<tEpisode[]> {
   const response = await fetch(`${TVMAZE_API_URL}shows/${id}/episodes`);
   if (!response.ok) throw new Error("404");
-  const data = await response.json();
-  return data.map(({ id, name, season, number } : tEpisode) => (
+  const data :tEpisodeResult[] = await response.json(); //type data here to get the benefits of typing
+  return data.map(({ id, name, season, number }) => (
     { id, name, season, number }
   ));
 }
